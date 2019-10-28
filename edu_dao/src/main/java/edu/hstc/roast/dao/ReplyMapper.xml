@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hstc.roast.dao.ReplyMapper">
+
+    <insert id="add" parameterType="reply">
+      INSERT INTO reply(id, owner_id, context, introduce, time,posting_id,target_user,target_reply) VALUES (#{id},#{owner_id},#{context},#{introduce},#{time},#{posting_id},#{target_user},#{target_reply})
+    </insert>
+
+    <select id="queryAll" resultMap="replyWithList" >
+        select * from reply
+    </select>
+
+    <!--<select id="queryReplyByIDWithUsers" parameterType="reply" resultMap="replyWithUsersAndPosting" >-->
+        <!--select * from reply where id={#id}-->
+    <!--</select>-->
+
+    <select id="queryReplyByID" parameterType="reply" resultMap="replyWithList" >
+        select * from reply where id=#{id}
+    </select>
+
+    <select id="queryRepliesOfUserByUserID" parameterType="String" resultMap="replyWithUsersAndPosting" >
+        select * from reply where  owner_id=#{owner_id}
+        ORDER BY time asc
+    </select>
+
+    <!--查询该帖子下的所有回复-->
+    <select id="queryAllRepliesOfPostingByPostingID" parameterType="string" resultMap="replyWithUsersAndPosting">
+        select * from reply where posting_id=#{posting_id}
+    </select>
+
+    <!--查询回复帖子的回复-->
+    <select id="queryRepliesForPostingByPostingID" parameterType="string" resultMap="replyWithList" >
+        select * from reply
+        where posting_id=#{posting_id} and posting_id=target_reply
+--         ORDER BY time DESC
+    </select>
+
+    <!--查询所有不是回复帖子的回复-->
+    <select id="queryReplyForReplyByPostingID" parameterType="String" resultMap="replyWithUsersAndPosting" >
+        select * from reply where  posting_id=#{posting_id}  and posting_id!=target_reply
+        ORDER BY time asc
+    </select>
+
+    <!--查询某个回复下的所有子回复-->
+    <select id="queryChildRepliesByID" parameterType="reply" resultMap="replyWithUsersAndPosting" >
+        select * from reply where  posting_id=#{posting_id}  and target_reply=#{target_reply}
+        ORDER BY time asc
+    </select>
+
+    <!--查询某个回复下的所有子回复(Map参数版本)-->
+    <select id="queryChildRepliesByIDUseMap" parameterType="java.util.Map" resultMap="replyWithUsersAndPosting" >
+        select * from reply where  posting_id=#{posting_id}  and target_reply=#{target_reply}
+        ORDER BY time asc
+    </select>
+
+
+
+    <update id="updateReplyByID" parameterType="reply">
+        update reply
+        <set>
+            <if test="owner_id!=null and owner_id!=''">
+                owner_id=#{owner_id},
+            </if>
+            <if test="introduce!=null and introduce!=''">
+                introduce=#{introduce},
+            </if>
+            <if test="context!=null and context!=''">
+                context=#{context},
+            </if>
+            <if test="time!=null and time!=''">
+                time=#{time},
+            </if>
+            <if test="posting_id!=null and posting_id!=''">
+                posting_id=#{posting_id},
+            </if>
+            <if test="target_user!=null and target_user!=''">
+                target_user=#{target_user},
+            </if>
+            <if test="target_reply!=null and target_reply!=''">
+                target_reply=#{target_reply},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="deleteReplyByID" parameterType="String">
+ 			delete from reply where id=#{id}
+ 	</delete>
+
+    <resultMap type="reply" id="replyWithUsersAndPosting">
+        <id property="id" column="id"></id>
+        <result property="owner_id" column="owner_id"/>
+        <result property="introduce" column="introduce"/>
+        <result property="context" column="context"/>
+        <result property="time" column="time"/>
+        <result property="posting_id" column="posting_id"/>
+        <result property="target_user" column="target_user"/>
+        <result property="target_reply" column="target_reply"/>
+        <association property="owerUser" column="owner_id" javaType="user" select="edu.hstc.roast.dao.UserMapper.queryUserByUserID"></association>
+        <association property="targetUser" column="target_user" javaType="user" select="edu.hstc.roast.dao.UserMapper.queryUserByUserID"></association>
+    </resultMap>
+
+    <resultMap type="reply" id="replyWithList">
+        <id property="id" column="id"></id>
+        <result property="owner_id" column="owner_id"/>
+        <result property="introduce" column="introduce"/>
+        <result property="context" column="context"/>
+        <result property="time" column="time"/>
+        <result property="posting_id" column="posting_id"/>
+        <result property="target_user" column="target_user"/>
+        <result property="target_reply" column="target_reply"/>
+        <association property="owerUser" column="owner_id" javaType="user" select="edu.hstc.roast.dao.UserMapper.queryUserByUserID"></association>
+        <association property="targetUser" column="target_user" javaType="user" select="edu.hstc.roast.dao.UserMapper.queryUserByUserID"></association>
+        <collection property="replies" column="{posting_id=posting_id,target_reply=id}" ofType="reply"
+                    select="queryChildRepliesByIDUseMap" />
+
+    </resultMap>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<package name="edu.hstc.roast.module" />
+	</typeAliases>
+	<!-- 注册分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor" />
+	</plugins>
+    <!--&lt;!&ndash; 注册分页插件 &ndash;&gt;-->
+    <!--<plugins>-->
+        <!--<plugin interceptor="com.github.pagehelper.PageInterceptor" />-->
+    <!--</plugins>-->
+    <!--<environments default="mysql">-->
+        <!--<environment id="mysql">-->
+        <!--<transactionManager type="JDBC"/>-->
+         <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="com.mysql.jdbc.Driver" />-->
+                <!--<property name="url" value="jdbc:mysql://pc.hstc.edu.cn:3306/test"/>-->
+                <!--<property name="username" value="2016118105" />-->
+                <!--<property name="password" value="19970804" />-->
+         <!--</dataSource>-->
+         <!--</environment>-->
+    <!--</environments>-->
+
+</configuration>

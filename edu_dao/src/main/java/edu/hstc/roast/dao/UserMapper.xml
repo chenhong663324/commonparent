@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hstc.roast.dao.UserMapper">
+
+    <select id="checkLoginAndPwd" resultMap="userWithList" parameterType="user">
+        select * from user where username=#{username} and password=#{password}
+    </select>
+
+    <insert id="addUser" parameterType="user">
+        INSERT INTO user(uuid, username, password, personal_signature, profile_pic, panel_pic) VALUES (#{uuid}, #{username},#{password} ,#{personal_signature} ,#{profile_pic} ,#{panel_pic} )
+    </insert>
+    <select id="queryAllUsers" resultMap="userWithList" >
+        select * from user
+    </select>
+    <select id="queryUserByUserID" parameterType="int" resultType="user">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="queryUserByUserIDWithPostingList" parameterType="int" resultMap="userWithList">
+        select * from user where id=#{id}
+    </select>
+    <select id="queryUserByUsername" parameterType="string" resultType="user">
+        select * from user where username=#{username}
+    </select>
+    <select id="queryUserByUserUUID" parameterType="String" resultMap="userWithList">
+        select * from user where uuid=#{uuid}
+    </select>
+    <select id="queryUsersByName" parameterType="user" resultMap="userWithList">
+        select * from user
+        <where>
+            <if test="username!=null and username!=''">
+                username like concat('%',#{username},'%')
+            </if>
+            <!--<if test="phone!=null and phone!=''">-->
+                <!--phone like concat('%',#{phone},'%')-->
+            <!--</if>-->
+            <!--<if test="address!=null and address!=''">-->
+                <!--address like concat('%',#{address},'%')-->
+            <!--</if>-->
+            <!--<if test="sex!=null and sex!=''">-->
+                <!--sex=#{sex}-->
+            <!--</if>-->
+            <!--<if test="identity_id!=null and identity_id!=''">-->
+                <!--identity_id=#{identity_id}-->
+            <!--</if>-->
+        </where>
+    </select>
+    <update id="updateUserByID" parameterType="user">
+        update user
+        <set>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="personal_signature!=null and personal_signature!=''">
+                personal_signature=#{personal_signature},
+            </if>
+            <if test="profile_pic!=null and profile_pic!='' ">
+                profile_pic=#{profile_pic},
+            </if>
+            <if test="panel_pic!=null and panel_pic!=''">
+                panel_pic=#{panel_pic},
+            </if>
+            <!--<if test="address!=null and address!=''">-->
+                <!--address=#{address}-->
+            <!--</if>-->
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteUserByID" parameterType="int">
+ 			delete from user where id=#{id}
+ 	</delete>
+    <delete id="deleteUserByUUID" parameterType="String">
+ 			delete from user where uuid=#{uuid}
+ 	</delete>
+    <resultMap type="user" id="userWithList">
+    	<id property="id" column="id"></id>
+    	<result property="uuid" column="uuid"/>
+    	<result property="username" column="username"/>
+    	<result property="personal_signature" column="personal_signature"/>
+    	<result property="profile_pic" column="profile_pic"/>
+    	<result property="panel_pic" column="panel_pic"/>
+    	<!--<association property="ownPostingList" column="id" javaType="identity" select="com.hstc.somuna.book.dao.IdentityMapper.queryIdentityByID"></association>-->
+        <collection property="ownPostingList" column="id" ofType="posting"
+                    select="edu.hstc.roast.dao.PostingMapper.queryPostingByUserID" />
+        <!--<collection property="replyed_postingList" column="id" ofType="reply"-->
+                    <!--select="" />-->
+    </resultMap>
+</mapper>

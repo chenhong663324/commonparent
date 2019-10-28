@@ -1,0 +1,138 @@
+.panel_personalInfo {
+	height: 150px;
+	text-align: center;
+}
+#information {
+	height: 200px;
+	text-align: center;
+/*	display: table-cell;
+	vertical-align: middle;*/
+}
+#name{
+	position:absolute;
+/*	text-align: center;*/
+    top:30%;
+    left: 0;
+    right: 0;
+/*    transform:translateX(50%);*/
+}
+#personalized_signature{
+	position:absolute;
+	left: 0;
+    right: 0;
+	text-align: center;
+    top:50%;
+}
+.personal_image {
+	z-index:1;
+	position: absolute;
+	left: 0;
+    right: 0;
+    top: 90px;
+    margin: auto;
+    width: 95px;
+    height: 95px;
+}
+.left{float: right;}
+.right{float:left;}
+.p_in_personal {
+    position:absolute;
+    top:50%;
+/*    transform:translateY(-50%);*/
+}
+.posting{
+	background-color: #FFFFFF;
+}
+
+        .infinity-scroll{
+            width: auto; /*300px*/
+            height: 600px; /*500px*/
+/*            position: absolute;
+            left:10px;
+            top:10px;*/
+            background-color: #ffffff;
+            /*box-sizing: border-box;*/
+            /*border:1px solid green;*/
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .main-content{
+/*            position: absolute;
+            left: 0px;
+            top: 0px;*/
+            width: 100%;
+            /*box-sizing: border-box;*/
+/*            background-color: #cccccc;*/
+            /*border: 1px solid #ffffff;*/
+        }
+
+        .item{
+            width: 100%;
+            height: 400px;
+            background-color: #ffffff;
+        }
+
+        .item:nth-child(2n+1){
+/*            background-color: green;*/
+        }
+
+        .scroll-wrapper{
+            width: 100%;
+            background-color: red;
+            height: 2000px;
+        }
+
+        .hide{
+            display: none;
+        }
+        
+        
+.loader-ellips {
+  font-size: 20px; /* change size here */
+  position: relative;
+  width: 4em;
+  height: 1em;
+  margin: 10px auto;
+}
+
+.loader-ellips__dot {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.5em;
+  background: #555; /* change color here */
+  position: absolute;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+.loader-ellips__dot:nth-child(1),
+.loader-ellips__dot:nth-child(2) {
+  left: 0;
+}
+.loader-ellips__dot:nth-child(3) { left: 1.5em; }
+.loader-ellips__dot:nth-child(4) { left: 3em; }
+
+@keyframes reveal {
+  from { transform: scale(0.001); }
+  to { transform: scale(1); }
+}
+
+@keyframes slide {
+  to { transform: translateX(1.5em) }
+}
+
+.loader-ellips__dot:nth-child(1) {
+  animation-name: reveal;
+}
+
+.loader-ellips__dot:nth-child(2),
+.loader-ellips__dot:nth-child(3) {
+  animation-name: slide;
+}
+
+.loader-ellips__dot:nth-child(4) {
+  animation-name: reveal;
+  animation-direction: reverse;
+}

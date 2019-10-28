@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>我的主页</title>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/main_css.css">
+
+	<link rel="stylesheet" type="text/css" href="Flat-UI-master/dist/css/flat-ui.css">
+	<!-- <link rel="stylesheet" href="css/mianshop_css.css" /> -->
+	<!--我加的-->
+	<style type="text/css">
+		.right{
+			float:right;
+			width: 100px;
+			height: 100px;
+			/*margin-right: 80px;*/
+		}
+		.left{
+			float:left;
+		}
+	</style>
+	<style>
+	  *{
+		margin:0px;
+		padding: 0px;
+		positon:relative
+		}
+
+      .postTime{
+          position: relative;
+		  max-width: 40%;
+          left: 65%;
+          bottom: 90%;
+      }
+        .media{
+            font-size: 13px;
+        }
+		.media-heading{
+			font-size: 13px;
+		}
+
+	</style>
+
+</head>
+<body  style="padding: 60px;">
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #63ADD0">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">全民吐槽厅</a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="">
+							 <a href="#">首页</a>
+						</li>
+						<li>
+							 <a href="#">话题</a>
+						</li>
+						<!--<li class="dropdown">-->
+							 <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">待定<strong class="caret"></strong></a>-->
+							<!--<ul class="dropdown-menu">-->
+								<!--<li>-->
+									 <!--<a href="main/goToHandlebarsTest.action">去评论</a>-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">Another action</a>-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">Something else here</a>-->
+								<!--</li>-->
+								<!--<li class="divider">-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">Separated link</a>-->
+								<!--</li>-->
+								<!--<li class="divider">-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">One more separated link</a>-->
+								<!--</li>-->
+							<!--</ul>-->
+						<!--</li>-->
+					</ul>
+					<form class="navbar-form navbar-left" role="search" >
+						<div class="form-group">
+							<input id="posting_name" type="text"  class="form-control"  />
+						</div> <button type="button" class="btn btn-default" onclick="queryPostingsByName(this)">搜索</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<!--<li>-->
+							 <!--<a href="#">加入吐槽</a>-->
+						<!--</li>-->
+						<li>
+                            <a  href="/Roast/user/logOut.action">
+                                <span id="u">
+                                    Somuna
+                                </span>
+							<span class="glyphicon glyphicon-log-in"></span>
+							</a>
+						</li>
+						<!--<li class="dropdown">-->
+							 <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">语言<strong class="caret"></strong></a>-->
+							<!--<ul class="dropdown-menu">-->
+								<!--<li>-->
+									 <!--<a href="#">简体中文</a>-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">繁体中文</a>-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">English</a>-->
+								<!--</li>-->
+								<!--<li class="divider">-->
+								<!--</li>-->
+								<!--<li>-->
+									 <!--<a href="#">还原默认设置</a>-->
+								<!--</li>-->
+							<!--</ul>-->
+						<!--</li>-->
+					</ul>
+				</div>
+				
+			</nav>
+		</div>
+	</div>
+
+<!-- 							<div class="container">
+							<div class="row clearfix">
+								<div class="col-md-1 column">
+									<img src="1.jpg" class="img-circle img-responsive" width="auto" height="auto">
+								</div>
+							</div>
+						</div> -->
+	<div class="row clearfix">
+		<div class="col-md-3 column col-md-pull-1" >
+			<!--<img src="1.jpg" class="img-circle  img-responsive  personal_image" width="100px" height="100px">-->
+			<!--<div class="panel panel-default ">-->
+<!--&lt;!&ndash; 				<div class="panel-heading">面板标题</div> &ndash;&gt;-->
+				<!--<div class="panel-body panel_personalInfo" style="background-image:url(images/background.jpg)">-->
+				<!--</div>-->
+				<!--<ul class="list-group" >-->
+					<!--<li id="information" class="list-group-item">-->
+					<!---->
+					<!--<p id="name" class="">Neodarkard</p>-->
+					<!--<p id="personalized_signature" class="">天下谁人不识君</p>-->
+					<!--</li>-->
+<!--&lt;!&ndash; 					<li class="list-group-item panel_personalInfo"></li> &ndash;&gt;-->
+				<!--</ul>-->
+			<!--</div>-->
+			<!--<div class="panel panel-default ">-->
+				<!--<div class="panel-heading">关于</div>-->
+				<!--<div class="panel-body">-->
+					<!--<p></p>-->
+				<!--</div>-->
+				<!--<ul class="list-group" >-->
+					<!--<li class="list-group-item">Somuna</li>-->
+					<!--<li class="list-group-item "></li>-->
+				<!--</ul>-->
+			<!--</div>-->
+			<!--<div class="panel panel-default ">-->
+				<!--<div class="panel-heading">相片</div>-->
+				<!--<ul class="list-group" >-->
+					<!--<li class="list-group-item">-->
+						<!--<img src="images/1.jpg" class=" img-responsive  " width="auto" height="auto">-->
+					<!--</li>-->
+					<!--<li class="list-group-item ">-->
+						<!--<img src="images/2.jpg" class="img-responsive  " width="auto" height="auto">-->
+					<!--</li>-->
+					<!--<li class="list-group-item ">-->
+						<!--<img src="images/3.jpg" class="img-responsive  " width="auto" height="auto">-->
+					<!--</li>-->
+				<!--</ul>-->
+			<!--</div>-->
+		</div>
+		<div class="col-md-7 column col-md-pull-1" >
+			<!--tasks是最外层的元素，所有加载的内容都会放在这个元素内-->
+			<div>
+				<div class='tasks'  style="overflow-y: auto;">
+					<!--<div class="jumbotron well-sm well posting post">-->
+						<!--<h2 class="posting_name" style="word-wrap:break-word;word-break:break-all;font-size: 35px;">-->
+									<!--Hello, world!-->
+						<!--</h2>-->
+						<!--<p class="posting_content">-->
+									<!--This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<a class="" href="#">Learn more-->
+							<!--<span class="glyphicon glyphicon-chevron-down"></span>  &lt;!&ndash;  btn btn-primary btn-large &ndash;&gt;-->
+							<!--</a>-->
+						<!--</p>-->
+
+					<!--</div>-->
+                    <!--<div class="media" >-->
+                        <!--<div class="media-left media-top" >-->
+                            <!--<img src= "/Roast/images/touxiang.jpg" class="media-object" style="width: 40px;" >-->
+                            <!--&lt;!&ndash;{{owerUser.profile_pic}}&ndash;&gt;-->
+                        <!--</div>-->
+
+                        <!--<div class="media-body" style="position:relative;max-width: 500px;">-->
+							<!--<div style="position:relative;max-width: 500px;">-->
+								<!--<h4 class="media-heading ">槟榔果 <span style="color: #0f74a8">回复</span> 西瓜</h4>-->
+								<!--<p style="visibility: hidden;display: none"></p>-->
+								<!--<p style="word-wrap:break-word;word-break:break-all;"> 666666666666666666666666666666666666666666666666666666666666666666666666666666666</p>-->
+								<!--<div class="postTime">2019-06-27-->
+									<!--<button class="btn-default btn-link">回复</button>-->
+									<!--<button class="btn-default btn-link">查看回复</button>-->
+								<!--</div>-->
+								<!--<div class="divFor_Edit_reply" style="visibility: hidden;display: none">-->
+									<!--<div class="form-group">-->
+										<!--<input type="text" class="form-control myInput"-->
+											   <!--placeholder="请输入内容">-->
+									<!--</div>-->
+									<!--<button type="submit" class="btn btn-default "-->
+									<!--&gt;提交</button>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--&lt;!&ndash;在这里插入评论&ndash;&gt;-->
+							<!--<div class="childReplies">-->
+
+							<!--</div>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+
+				</div>
+			</div>
+            <div>
+                <button type="button" id="loadMore" class="btn loadMoreButton">
+                    <span class="glyphicon glyphicon-arrow-down"></span> 查看更多
+                </button>
+            </div>
+
+			<div class="page-load-status">
+ 				<div id="wait" class="loader-ellips infinite-scroll-request" style="visibility: hidden;display: none;">
+                    <span class="loader-ellips__dot"></span>
+                    <span class="loader-ellips__dot"></span>
+                    <span class="loader-ellips__dot"></span>
+                    <span class="loader-ellips__dot"></span>
+  				</div>
+  				<p id="end" class="infinite-scroll-last" style="visibility: hidden;display: none;">End of content</p>
+  				<p id="error" class="infinite-scroll-error " style="visibility: hidden;display: none;">No more pages to load</p>
+			</div>
+		</div>
+		<div class="left" >
+			<a href="##"   id="kaitiezi" >
+				<span class="glyphicon glyphicon-edit"  style="font-size: 50px;"></span>
+				<br>开帖子
+			</a>
+		</div>
+
+		<div class="right">
+			<a href="#"   id="myposting">
+				<span class="glyphicon glyphicon-list-alt"  style="font-size: 50px;"></span>
+				<br>我的帖子
+			</a>
+		</div>
+		<!--<div class="col-md-2 column col-md-push-0">-->
+			<!--<h2>-->
+				<!--Heading-->
+			<!--</h2>-->
+			<!--<p>-->
+				<!--Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.-->
+			<!--</p>-->
+			<!--<p>-->
+				 <!--<a class="btn" href="#">View details »</a>-->
+			<!--</p>-->
+		<!--</div>-->
+	</div>
+</div>
+
+<script type="text/x-handlebars-template" id="personal_template">
+    <img src="upload/{{profile_pic}}" class="img-circle  img-responsive  personal_image" width="100px" height="100px">
+    <div class="panel panel-default ">
+        <div class="panel-body panel_personalInfo" style="background-image:url(images/background.jpg)">
+        </div>
+        <ul class="list-group" >
+            <li id="information" class="list-group-item">
+
+                <p id="name" class="">{{username}}</p>
+                <p id="personalized_signature" class="">{{personal_signature}}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="panel panel-default ">
+        <div class="panel-heading">关于</div>
+        <div class="panel-body">
+            <p>账号：{{id}}</p>
+        </div>
+        <ul class="list-group" >
+            <li class="list-group-item">吐槽小白</li>
+            <li class="list-group-item "></li>
+        </ul>
+    </div>
+</script>
+
+<!--保证都有一个共同的class属性，不必是item-->
+<script type="text/x-handlebars-template" id="postings_template">
+	{{#each this}}
+	<div id="{{id}}" class='posting-template' style="border: 1px solid #ecf0f1;margin-bottom: 30px;padding: 10px;border-radius: 3px;">
+		<div  class="jumbotron well-sm well posting post">
+
+			<h2 class="posting_name">{{name}}</h2>
+			<p class="posting_content">{{introduce}}</p>
+			<p>
+				<button type="button" data-posting_id="{{id}}" class="btn btn-link" onclick="toPosting(this)">
+					<span class="glyphicon glyphicon-arrow-right"></span> 查看详细
+				</button>
+
+
+				<button type="button" data-posting_id="{{id}}" class="btn btn-link" onclick="showRelyEditor(this,1)">
+					<span class="glyphicon glyphicon-pencil"></span> 写回复
+				</button>
+
+				<button type="button" data-posting_id="{{id}}" class="btn btn-link viewFirstLevelReplies" onclick="requestRepliesByPosting_id(this)">
+					<span class="glyphicon glyphicon-list"></span>
+					<span class="mytext">查看回复</span>
+				</button>
+
+
+			</p>
+
+		</div>
+		<div class="divFor_Edit_reply" style="visibility: hidden;display: none">
+			<div class="form-group">
+				<input type="text" class="form-control myInput"
+					   placeholder="请输入内容">
+			</div>
+			<button type="submit" class="btn btn-default submitFirstRelpy" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+					onclick="submitFirstLevelRelpy(this)">提交</button>
+		</div>
+		<div class="replylies">
+
+		</div>
+
+	</div>
+	{{/each}}
+</script>
+<script type="text/x-handlebars-template" id="replyForPostings_template">
+
+    {{#each this}}
+	<div>
+		<div id="{{id}}" class="media" >
+			<div class="media-left media-top">
+				<img src= "/Roast/images/touxiang.jpg" class="media-object" style="width:40px">
+			</div>
+			<div class="media-body" style="position:relative;max-width: 70%;">
+				<h4 class="media-heading">{{owerUser.username}} <span style="color: #0f74a8">回复</span> {{targetUser.username}}</h4>
+
+				<p style="word-wrap:break-word;word-break:break-all;">{{context}}</p>
+				<div class="postTime">{{time}}
+					<button class="btn-default btn-link" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="showRelyEditor(this,2)">回复</button>
+					<button class="btn-default btn-link viewReplies" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="onclickToViewSecondReply(this)">
+						<span class="mytext">查看回复</span>
+					</button>
+				</div>
+				<div class="divFor_Edit_reply" style="visibility: hidden;display: none">
+					<div class="form-group">
+						<input type="text" class="form-control myInput"
+							   placeholder="请输入内容">
+					</div>
+					<button type="submit" class="btn btn-default submitSecondRelpy" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="submitRelpy(this)">提交</button>
+				</div>
+
+				<!--在这里插入评论-->
+				<div class="childReplies">
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars-template" id="replyForReply_template">
+	{{#each this}}
+	<div>
+		<div id="{{id}}" class="media" >
+			<div class="media-left media-top">
+				<img src= "/Roast/images/touxiang.jpg" class="media-object" style="width:40px">
+			</div>
+			<div class="media-body" style="position:relative;max-width: 70%;">
+				<h4 class="media-heading">{{owerUser.username}} <span style="color: #0f74a8">回复</span> {{targetUser.username}}</h4>
+				<p style="word-wrap:break-word;word-break:break-all;">{{context}}</p>
+				<div class="postTime">{{time}}
+					<!--<button class="btn-default btn-link" data-replyid="{{id}}" data-owner_id="{{owner_id}}"-->
+							<!--onclick="showRelyEditor(this.parentNode)">回复</button>-->
+				</div>
+				<div class="divFor_Edit_reply" style="visibility: hidden;display: none">
+					<div class="form-group">
+						<input type="text" class="form-control myInput"
+							   placeholder="请输入内容">
+					</div>
+					<button type="submit" class="btn btn-default " data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="submitRelpy(this)">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{/each}}
+</script>
+<script type="text/x-handlebars-template" id="OneReply_template">
+	<div>
+		<div id="{{id}}" class="media" >
+			<div class="media-left media-top">
+				<img src= "/Roast/images/touxiang.jpg" class="media-object" style="width:40px">
+			</div>
+			<div class="media-body" style="position:relative;max-width: 70%;">
+				<h4 class="media-heading">{{owerUser.username}} <span style="color: #0f74a8">回复</span> {{targetUser.username}}</h4>
+				<p style="word-wrap:break-word;word-break:break-all;">{{context}}</p>
+				<div class="postTime">{{time}}
+					<button class="btn-default btn-link" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="showRelyEditor(this.parentNode)">回复</button>
+				</div>
+				<div class="divFor_Edit_reply" style="visibility: hidden;display: none">
+					<div class="form-group">
+						<input type="text" class="form-control myInput"
+							   placeholder="请输入内容">
+					</div>
+					<button type="submit" class="btn btn-default " data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+							onclick="submitRelpy(this)">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+</body>
+<!--插件-->
+    <script type="text/javascript" src="/Roast/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/Roast/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Roast/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="/Roast/js/handlebars-v4.0.8.js"></script>
+    <script type="text/javascript" src="/Roast/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="/Roast/js/infinite-scroll.pkgd.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<!--页面js-->
+	<script type="text/javascript" src="/Roast/js/myUtils.js"></script>
+    <script type="text/javascript" src="/Roast/js/mypage.js"></script>
+<script type="text/javascript">
+    $("#kaitiezi").click(function ToCreatePost(){
+        var owner_id;
+        var data = {
+            owner_id:"1"
+        }
+        $.cookie('data',JSON.stringify(data));
+        window.open("ckEditorTest.html");
+    });
+
+    $("#myposting").click(function ToMyPosting(){
+        var owner_id;
+        var data = {
+            owner_id:"1"
+        }
+        $.cookie('data',JSON.stringify(data));
+        window.open("myposting.html");
+    });
+</script>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/ckeditor.css">
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main_css.css">
+    <link rel="stylesheet" type="text/css" href="Flat-UI-master/dist/css/flat-ui.css">
+    <!-- <link rel="stylesheet" href="css/mianshop_css.css" /> -->
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body  onunload="javascript:window.opener.location.reload()" style="padding: 60px;background-color: #FFFFFF">
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #63ADD0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">全民吐槽厅</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">话题</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">待定<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Action</a>
+                            </li>
+                            <li>
+                                <a href="#">Another action</a>
+                            </li>
+                            <li>
+                                <a href="#">Something else here</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">Separated link</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" />
+                    </div> <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" id="releasePosting">发布
+                            <span class="glyphicon glyphicon-saved"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">Somuna
+                            <span class="glyphicon glyphicon-log-in"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </nav>
+    </div>
+</div>
+
+    <div>
+        <input type="text" id="PostingName" placeholder="请输入标题" style="height:40px; font-size:30px;border:none; outline: none;"size="60">
+    </div>
+    <div class="document-editor">
+        <div id="document-editor__toolbar"></div>
+        <!-- This container will become the editable. -->
+        <div class="document-editor__editable-container">
+            <div name="content" id="document-editor__editable" >
+                <p>请输入正文</p>
+            </div>
+        </div>
+
+    </div>
+    <script id="entry-template" type="text/x-handlebars-template">
+        <div class="entry">
+            <h1>{{title}}</h1>
+            <div class="body">
+                {{body}}
+            </div>
+        </div>
+    </script>
+</body>
+<script src="js/ckeditor.js"></script>
+<script type="text/javascript" src="js/handlebars-v4.0.8.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript">
+    //***forHandlebarsTest*************
+    var source   = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+    var context = {title: "My New Post", body: "This is my first post!"};
+    var html    = template(context);
+    //***forHandlebarsTest*************
+    var MyEditor;
+    DecoupledEditor
+        .create( document.querySelector( '#document-editor__editable' ),{
+            ckfinder:{
+                uploadUrl:'main/uploadImage.action'
+            }
+        } )
+        .then( editor => {
+        MyEditor=editor;
+        const toolbarContainer = document.querySelector( '#document-editor__toolbar' );
+
+    toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+
+    $("#releasePosting").click(function getData() {
+        var getContextOfHTML=MyEditor.getData();
+        var getContextExpectHTML=getContextOfHTML.replace(/<[^>]+>/g,"");//去掉所有的html标记 //正文
+        var postname=$('#PostingName').val();  //标题
+        var data = $.cookie("data");
+        var m = JSON.parse(data);
+        var id=m.owner_id;//获取cookie传来的用户id
+        $.ajax({//
+                url: "main/createPosting.action",
+                method: "post",
+                dataType:"json",
+                contentType:"application/x-www-form-urlencoded",
+                data:{name:postname,introduce:getContextExpectHTML,context:getContextOfHTML,owner_id:id},
+                success: function (data) {//
+                   alert("创建帖子成功");
+                    window.close();
+                },
+                error:function (data) {
+                    alert(2222);
+                }
+            });
+        return false;//阻止传递
+    });
+
+</script>
+</html>

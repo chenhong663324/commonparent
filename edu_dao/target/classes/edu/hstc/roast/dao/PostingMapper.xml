@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hstc.roast.dao.PostingMapper">
+
+    <insert id="add" parameterType="posting">
+      INSERT INTO posting(id, theme_id, posting_name,introduce, owner_id, context, time) VALUES (
+        #{id},#{theme_id} , #{name}, #{introduce},#{owner_id},#{context},#{time}
+      )
+    </insert>
+
+    <select id="queryAll" resultMap="postingWithList" >
+        select * from posting
+    </select>
+
+    <select id="queryPostingByID" parameterType="String" resultMap="postingWithList" >
+        select * from posting where id=#{id}
+    </select>
+    <select id="queryPostingsByNameOrContext" parameterType="posting" resultMap="postingWithList">
+        select * from posting
+        <where>
+            <if test="name!=null and name!=''">
+                posting_name like concat('%',#{name},'%')
+            </if>
+            <if test="introduce!=null and introduce!=''">
+                introduce like concat('%',#{introduce},'%')
+            </if>
+            <if test="context!=null and context!=''">
+                context like concat('%',#{context},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryPostingByUserID" parameterType="int" resultMap="postingWithList" >
+        select * from posting where owner_id=#{owner_id}
+        ORDER BY time asc
+    </select>
+
+    <update id="updatePostingByID" parameterType="posting">
+        update posting
+        <set>
+            <if test="owner_id!=null and owner_id!=''">
+                owner_id=#{owner_id},
+            </if>
+            <if test="introduce!=null and introduce!=''">
+                introduce=#{introduce},
+            </if>
+            <if test="context!=null and context!=''">
+                context=#{context},
+            </if>
+            <if test="time!=null and time!=''">
+                time=#{time},
+            </if>
+            <if test="theme_id!=null and theme_id!=''">
+                theme_id=#{theme_id},
+            </if>
+            <if test="name!=null and name!=''">
+                posting_name=#{name},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="deletePostingByID" parameterType="String">
+ 			delete from posting where id=#{id}
+ 	</delete>
+
+    <resultMap type="posting" id="postingWithList">
+        <id property="id" column="id"></id>
+        <result property="owner_id" column="owner_id"/>
+        <result property="introduce" column="introduce"/>
+        <result property="context" column="context"/>
+        <result property="time" column="time"/>
+        <result property="theme_id" column="theme_id"/>
+        <result property="name" column="posting_name"/>
+        <association property="user" column="owner_id" javaType="user" select="edu.hstc.roast.dao.UserMapper.queryUserByUserID"></association>
+        <association property="parent" column="theme_id" javaType="theme" select="edu.hstc.roast.dao.ThemeMapper.queryThemeByID"></association>
+        <collection property="replies" column="posting_id" ofType="reply"
+                    select="edu.hstc.roast.dao.ReplyMapper.queryPostingReply" />
+
+    </resultMap>
+</mapper>

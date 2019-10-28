@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="/Roast/css/bootstrap.css" />
+    <link rel="stylesheet" href="/Roast/css/bootstrap-datetimepicker.min.css" />
+</head>
+<style>
+    .postTime{
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+    }
+</style>
+<body>
+<div style=" border-width: 3px;border-style:solid;border-color: #000000">6666666666666666666666666666666666666666666666666666666666666666666666666666666666666</div>
+
+<div id="repliesContainer" class="container">
+    <button class="btn-default btn-link" onclick="request()">请求</button>
+    <!-- 左对齐 -->
+    <div id="userReply" class="media" >
+        <div class="media-left media-middle">
+            <img src="images/touxiang.jpg" class="media-object" style="width:40px">
+        </div>
+        <div class="media-body" style="position:relative;">
+            <h4 class="media-heading">皮卡丘</h4>
+            <p>我日你骂了个球。草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草草</p>
+            <div class="postTime">2019-6-24 14:22:34
+                <button class="btn-default btn-link" onclick="showRelyEditor(this.parentNode.parentNode)">回复</button>
+            </div>
+        </div>
+        <!--<div style="position:relative;">-->
+
+        <!--</div>-->
+    </div>
+</div>
+
+<script id="entry-template" type="text/x-handlebars-template">
+
+    {{#each this}}
+    <div id="{{id}}" class="media" >
+        <div class="media-left media-middle">
+            <img src= "/Roast/images/touxiang.jpg" class="media-object" style="width:40px">
+            <!--{{owerUser.profile_pic}}-->
+        </div>
+        <div class="media-body" style="position:relative;">
+            <h4 class="media-heading">{{owerUser.username}} <span style="color: #0f74a8">回复</span> {{targetUser.username}}</h4>
+            <p style="visibility: hidden;display: none">{{owner_id}}</p>
+            <p>{{context}}</p>
+            <div class="postTime">{{time}}
+                <button class="btn-default btn-link" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+                        onclick="showRelyEditor(this.parentNode)">回复</button>
+            </div>
+            <div class="divFor_Edit_reply" style="visibility: hidden;display: none">
+                <div class="form-group">
+                    <input type="text" class="form-control myInput"
+                           placeholder="请输入内容">
+                </div>
+                <button type="submit" class="btn btn-default" data-replyid="{{id}}" data-owner_id="{{owner_id}}"
+                        onclick="submitRelpy(this)">提交</button>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script id="edit_reply" type="text/html">
+    <div class="divFor_Edit_reply">
+            <div class="form-group">
+                <input type="text" class="form-control myInput"
+                       placeholder="请输入内容">
+            </div>
+            <button type="submit" class="btn btn-default" onclick="submitRelpy(this)">提交</button>
+    </div>
+</script>
+
+</body>
+<script type="text/javascript" src="/Roast/js/handlebars-v4.0.8.js"></script>
+<script type="text/javascript" src="/Roast/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/Roast/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/Roast/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/Roast/js/myUtils.js"></script>
+<script>
+    //***forHandlebarsTest*************
+    var source   = $("#entry-template").html();
+    //alert(source);
+    var template = Handlebars.compile(source);
+    //***forHandlebarsTest*************
+    var Replycache;
+    var userCache;
+
+    //alert(getQueryVariable("posting_id"));
+    requestRepliesByPosting_id(getQueryVariable("posting_id"));
+
+    //该函数已经弃用
+    function showRelyEditor2(object) {
+        //alert($(object.parentNode).find(".divFor_Edit_reply").length);
+        var $parent=$(object.parentNode);
+        var childs=$parent.find(".divFor_Edit_reply");
+        if(childs.length>0){
+            deleteChild(childs);
+            return;
+        }
+        //var u=document.getElementById("userReply");
+        var editor=document.getElementById("edit_reply");
+
+        //alert(editor.innerHTML);
+        object.insertAdjacentHTML("AfterEnd",editor.innerHTML);
+
+    }
+    //
+    /*
+        隐藏或者显示回复元素
+        preElement：需要操作的元素之前的元素
+         */
+    function showRelyEditor(preElement) {
+        var divFor_Edit_reply=$(preElement.nextElementSibling);
+        var v=divFor_Edit_reply.css("visibility");
+        var display=divFor_Edit_reply.css("display");
+        //alert(preElement.nextElementSibling);
+        if(v=="hidden"){
+            divFor_Edit_reply.css({
+                "visibility":"visible",
+                "display":"inline"
+                }
+            );
+        }else{
+            divFor_Edit_reply.css({
+                    "visibility":"hidden",
+                    "display":"none"
+                }
+            );
+        }
+    }
+
+    function deleteChild(childs) {
+        for(i=childs.length;i>0;i--){
+           childs.eq(i-1).remove();
+        }
+    }
+
+    function submitRelpy(button) {
+        /**
+         * inputValue : 输入的回复值
+         * @type {*|jQuery}
+         */
+        var inputValue=$(button.parentNode).find(".myInput");
+        //alert($(input).val());
+        /**
+         * $parent: 获取回复的目标reply，以获取其id
+         * @type {*|jQuery}
+         */
+        var $parent=$(button).parents(".media");
+        var target_reply_id =$parent[0].id;
+
+        var posting_id="p";
+
+        var time=getDate();
+        //alert(time);
+        var target_user_id=$(button).attr("data-owner_id");
+
+        // $.ajax({
+        //     type:"post",
+        //     dataType:"json",
+        //     contentType: "application/json;charset=UTF-8",
+        //     url:"main/addReply.action",
+        //     success:function(result) {
+        //         alert("replies:"+JSON.stringify(result));
+        //         // var context = {
+        //         //     replies: [
+        //         //         {name: "Handlebars", emotion: "love"},
+        //         //         {name: "Mustache", emotion: "enjoy"},
+        //         //         {name: "Ember", emotion: "want to learn"}
+        //         //     ]
+        //         // };
+        //         //var json=JSON.parse("replies:"+JSON.stringify(result));
+        //         var html   = template(result);
+        //         //html   = template(context);
+        //         alert(html);
+        //     }
+        // });
+    }
+    
+    function request() {
+        var html;
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            contentType: "application/json;charset=UTF-8",
+            url:"/Roast/main/loadReply.action",
+            success:function(result) {
+                alert("replies:"+JSON.stringify(result));
+                 html = template(result);
+                 var con=document.getElementById("repliesContainer");
+                 con.insertAdjacentHTML("BeforeEnd",html);
+                //alert(html);
+            }
+        });
+    }
+
+    function requestRepliesByPosting_id(id) {
+        var html;
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            contentType: "application/json;charset=UTF-8",
+            url:"/Roast/main/loadReplyByPostingID.action?posting_id="+id,
+            success:function(result) {
+                alert("replies:"+JSON.stringify(result));
+                html = template(result);
+                var con=document.getElementById("repliesContainer");
+                con.insertAdjacentHTML("BeforeEnd",html);
+                //alert(html);
+            }
+        });
+    }
+
+</script>
+</html>
