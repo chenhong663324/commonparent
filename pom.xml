@@ -19,7 +19,7 @@
 
     <!-- 公共版本号-->
     <properties>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <spring.version>4.3.6.RELEASE</spring.version>
         <jackson.version>2.8.8</jackson.version>
         <mybatis.version>3.4.2</mybatis.version>
